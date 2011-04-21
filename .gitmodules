@@ -1,0 +1,6 @@
+[submodule "vendor/plugins/fk_generator"]
+	path = vendor/plugins/fk_generator
+	url = git@github.com:bretweinraub/fk_generator.git
+[submodule "vendor/plugins/dbcompile"]
+	path = vendor/plugins/dbcompile
+	url = git@github.com:redhatcat/dbcompile.git

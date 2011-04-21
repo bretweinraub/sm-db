@@ -1,0 +1,8 @@
+
+
+development:
+  adapter: postgresql
+  database: smdbdev
+  username: bweinraub
+  host: localhost
+  password: f@@lish!
