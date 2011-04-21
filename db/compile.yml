@@ -1,6 +1,22 @@
-
 views:
-
 functions:
-
+    timestamp_insert:
+    timestamp_update:
 triggers:
+    task_create:
+        functions:
+            - timestamp_insert
+            - timestamp_update
+    task_update:
+        functions:
+            - timestamp_insert
+            - timestamp_update
+    action_create:
+        functions:
+            - timestamp_insert
+            - timestamp_update
+    action_update:
+        functions:
+            - timestamp_insert
+            - timestamp_update
+
