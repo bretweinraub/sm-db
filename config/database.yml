@@ -6,3 +6,10 @@ development:
   username: bweinraub
   host: localhost
   password: f@@lish!
+
+aura-di:
+  adapter: oracle_enhanced
+  database: XE
+  username: bonddemo
+  password: bonddemo
+

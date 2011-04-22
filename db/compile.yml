@@ -1,7 +1,12 @@
 views:
+    task_v:
+    num_children_v:
+    child_status_v:
 functions:
     timestamp_insert:
     timestamp_update:
+    set_action:
+#    decimal_to_date:
 triggers:
     task_create:
         functions:
