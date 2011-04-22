@@ -1,23 +1,18 @@
 class CreateAction < ActiveRecord::Migration
   def self.up
 
-    # begin
-    #   drop_table :action
-    # rescue
-    # end
-
     create_table :action do |t|
-      t.column :actionname, :string, {:limit => 256, :null => false}
-      t.column :numfailures, :integer
+      t.column :export_filter, :string, {:limit => 512}
+      t.column :callbacks, :string, {:limit => 4000}
+      t.column :actionmapper, :string, {:limit => 4000}
+      t.column :actionname, :string, {:limit => 256}
+      t.column :numfailures, :integer, {:default => 0}
       t.column :actionstatus, :string, {:limit => 32}
       t.column :actionpid, :integer
       t.column :outputurl, :string, {:limit => 256}
       t.column :actionsequence, :integer, {:null => false}
       t.column :task_id, :integer
-      t.column :is_deleted, :string, {:limit => 1, :default => 'N'}
-      t.column :callbacks, :string, {:limit => 4000}
-      t.column :actionmapper, :string, {:limit => 4000}
-      t.column :export_filter, :string, {:limit => 512}
+      t.column :is_deleted, :string, {:limit => 1,:default => 'N'}
       t.timestamps
     end
 
@@ -32,12 +27,11 @@ class CreateAction < ActiveRecord::Migration
                                          :from => :task_id,
                                          :to => :task_id)
 
+    add_index(:action, [:task_id,:action_id])
+
   end
   def self.down
     drop_table :action
-
-    
   end
-
   
 end

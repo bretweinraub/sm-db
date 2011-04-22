@@ -4,6 +4,7 @@ class TaskContext < ActiveRecord::Migration
     create_table :task_context do |t|
       t.column :tag, :string, {:limit => 256}
       t.column :value, :string, {:limit => 4000}
+      t.column :callbacks, :string, {:limit => 4000}
       t.column :source, :string, {:limit => 512}
       t.column :type, :string, {:limit => 64}
       t.column :host, :string, {:limit => 64}
@@ -24,10 +25,10 @@ class TaskContext < ActiveRecord::Migration
                                          :from => :task_id,
                                          :to => :task_id)
 
-    execute MigrationHelpers.fk_generate(:table => :task_context,
-                                         :refers_to => :task_context,
-                                         :from => :parent_task_context_id,
-                                         :to => :task_context_ID)
+    # execute MigrationHelpers.fk_generate(:table => :task_context,
+    #                                      :refers_to => :task_context,
+    #                                      :from => :parent_task_context_id,
+    #                                      :to => :task_context_ID)
 
 
   end
