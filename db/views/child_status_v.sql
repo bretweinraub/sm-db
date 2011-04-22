@@ -11,7 +11,7 @@ select	parentV.task_id,
 	taskname,
 	cur_action_id action_id,
 	actionname
-from	num_children_v parentV left outer join 
+from	num_children_v AS parentV left outer join 
 	(
 		select 	parent_task_id task_id,
 			status child_status,
