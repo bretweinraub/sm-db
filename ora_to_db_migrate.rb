@@ -39,13 +39,12 @@ module Oracle
   end
 end
 
-RAILS_ENV="aura-di"
+ENV["RAILS_ENV"]="aura-di"
 
 require File.join(File.dirname(__FILE__),'config','boot.rb')
 
-ActiveRecord::Base.establish_connection(DB_CONFIG[ENVIRONMENT])
 
-table_name="task"
+table_name=ARGV[0]
 
 class UserTabColumn < ActiveRecord::Base
 

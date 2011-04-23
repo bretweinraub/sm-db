@@ -1,7 +1,8 @@
 views:
     child_status_v:
         views:
-            task_v:
+            - task_v
+            - num_children_v
     task_v:
     num_children_v:
 

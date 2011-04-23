@@ -6,7 +6,7 @@ CREATE or REPLACE FUNCTION set_action(
   declare	i_cur_action_id	task.cur_action_id%type;
   declare  	i_nextActionSeq	action.actionSequence%type;
   declare	i_cur_actionname	action.actionname%type;
-  declare       i_cur_action_id_derived task.cur_action_id%type;
+--   declare       i_cur_action_id_derived task.cur_action_id%type;
 
 BEGIN
 
@@ -22,7 +22,7 @@ BEGIN
 --			last action finished.
 		
 	select	task.cur_action_id,
-		nvl(actionSequence,-1) + 1 actionSequence
+		coalesce(actionSequence,-1) + 1 actionSequence
 	into	i_cur_action_id,
 		i_nextActionSeq
 	from	task left outer join action on (task.cur_action_id = action.action_id)
@@ -64,17 +64,17 @@ BEGIN
 		select	actionname
 		into	i_cur_actionname
 		from	action
-		where	action_id = cur_action_id;
+		where	action_id = i_cur_action_id;
 
-		if actionname <> i_cur_actionname THEN
+		if i_actionname <> i_cur_actionname THEN
 			update  action
 			set 	actionstatus = 'succeeded'
-			where	action_id = cur_action_id;
+			where	action_id = i_cur_action_id;
 
 -- insert the new row; unless it is already there
 -- if it is already there; set its status to 'retry'.
 
-			i_cur_action_id_derived := NULL;
+			i_cur_action_id := NULL;
 
 			BEGIN
 				select	action_id
@@ -87,7 +87,7 @@ BEGIN
 					null;
 			END;
 
-			if i_cur_action_id_derived IS NULL THEN
+			if i_cur_action_id IS NULL THEN
 				insert into action
 				(
 					actionname,
@@ -123,5 +123,6 @@ BEGIN
 			where	task_id	= tid;
 		END IF;
 	END IF;
+        return NULL;
 END;
 $$ language plpgsql;
