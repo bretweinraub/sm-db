@@ -6,6 +6,7 @@ CREATE or REPLACE FUNCTION set_action(
   declare	i_cur_action_id	task.cur_action_id%type;
   declare  	i_nextActionSeq	action.actionSequence%type;
   declare	i_cur_actionname	action.actionname%type;
+  declare 	myrec record;
 --   declare       i_cur_action_id_derived task.cur_action_id%type;
 
 BEGIN
@@ -20,14 +21,26 @@ BEGIN
 --			the same as the procedure argument.  If it is; do nothing.
 --			If it isn't ; set this as the current action and mark the
 --			last action finished.
-		
-	select	task.cur_action_id,
-		coalesce(actionSequence,-1) + 1 actionSequence
-	into	i_cur_action_id,
-		i_nextActionSeq
-	from	task left outer join action on (task.cur_action_id = action.action_id)
-	and	task.task_id = tid;
 
+        RAISE DEBUG 'Calling set_action(%,%)', tid, i_actionname;
+
+	  select	
+	  into myrec
+	    task.cur_action_id,
+	    coalesce(actionSequence,-1) + 1 actionSequence
+	  from	
+	    task left outer join action on 
+	      (task.cur_action_id = action.action_id)
+	  where
+	    task.task_id = tid;
+
+        RAISE DEBUG 'derived myrec (%)', myrec;
+
+
+	i_cur_action_id := myrec.cur_action_id;
+	i_nextActionSeq := myrec.actionSequence;
+
+        RAISE DEBUG 'derived i_cur_action_id, i_nextActionSeq (%,%)', i_cur_action_id, i_nextActionSeq;
 --
 -- No task defined. 
 --
