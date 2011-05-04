@@ -1,3 +1,5 @@
+# -*-ruby-*- 
+
 require File.join(File.dirname(__FILE__), "config", "boot.rb")
 
 task :default => :migrate
@@ -5,6 +7,16 @@ desc "Migrate the database through scripts in db/migrate. Target a specific migr
 
 task :environment do
   ActiveRecord::Base.logger = Logger.new("database.log")
+end
+
+module ActiveRecord
+  class Migrator
+    class << self
+      def schema_migrations_table_name
+        "sm_db_" + 'schema_migrations'
+      end
+    end
+  end
 end
 
 namespace :db do 
